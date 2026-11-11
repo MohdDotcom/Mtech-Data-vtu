@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mtech Data VTU</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+header {
+    background: #063b2c;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #facc15;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.welcome {
+    margin-bottom: 20px;
+}
+
+.welcome h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.wallet {
+    background: linear-gradient(135deg, #064e3b, #047857);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.wallet p {
+    font-size: 14px;
+}
+
+.wallet h1 {
+    margin: 15px 0;
+    font-size: 32px;
+}
+
+.wallet button {
+    background: #facc15;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.section-title {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.service {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.service:hover {
+    transform: translateY(-3px);
+}
+
+.service .icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.service h3 {
+    font-size: 15px;
+}
+
+.service p {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.form-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.form-box h2 {
+    margin-bottom: 15px;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 14px;
+    background: #047857;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    background: #065f46;
+}
+
+.transactions {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.transaction:last-child {
+    border-bottom: none;
+}
+
+.success {
+    color: green;
+    font-size: 13px;
+}
+
+footer {
+    background: #063b2c;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+footer p {
+    margin: 8px;
+    font-size: 14px;
+}
+
+@media (min-width: 700px) {
+    .services {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        MTECH <span>GLOBAL BUSINESS</span>
+    </div>
+
+    <div>VTU</div>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Welcome to Mtech VTU</h2>
+        <p>Buy data, airtime and pay bills easily.</p>
+    </div>
+
+    <!-- WALLET -->
+
+    <div class="wallet">
+
+        <p>Demo Wallet Balance</p>
+
+        <h1 id="balance">₦10,000.00</h1>
+
+        <button onclick="fundWallet()">
+            Fund Wallet
+        </button>
+
+    </div>
+
+    <!-- SERVICES -->
+
+    <h2 class="section-title">Our Services</h2>
+
+    <div class="services">
+
+        <div class="service" onclick="showService('Airtime')">
+            <div class="icon">📱</div>
+            <h3>Airtime</h3>
+            <p>Recharge your phone</p>
+        </div>
+
+        <div class="service" onclick="showService('Data')">
+            <div class="icon">🌐</div>
+            <h3>Data</h3>
+            <p>Buy internet data</p>
+        </div>
+
+        <div class="service" onclick="showService('Electricity')">
+            <div class="icon">💡</div>
+            <h3>Electricity</h3>
+            <p>Pay electricity bills</p>
+        </div>
+
+        <div class="service" onclick="showService('Cable TV')">
+            <div class="icon">📺</div>
+            <h3>Cable TV</h3>
+            <p>Pay TV subscriptions</p>
+        </div>
+
+    </div>
+
+    <!-- PURCHASE FORM -->
+
+    <div class="form-box">
+
+        <h2 id="formTitle">Buy Airtime or Data</h2>
+
+        <select id="serviceType">
+            <option value="Airtime">Airtime</option>
+            <option value="Data">Data</option>
+            <option value="Electricity">Electricity</option>
+            <option value="Cable TV">Cable TV</option>
+        </select>
+
+        <select id="network">
+            <option value="">Select Network</option>
+            <option>MTN</option>
+            <option>Airtel</option>
+            <option>Glo</option>
+            <option>9mobile</option>
+        </select>
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Enter phone number"
+        >
+
+        <select id="plan">
+            <option value="">Select Plan</option>
+            <option value="500">₦500</option>
+            <option value="1000">₦1,000</option>
+            <option value="2000">₦2,000</option>
+            <option value="5000">₦5,000</option>
+        </select>
+
+        <button class="primary-btn" onclick="purchase()">
+            Continue
+        </button>
+
+        <p id="message" style="margin-top:15px;"></p>
+
+    </div>
+
+    <!-- TRANSACTION HISTORY -->
+
+    <h2 class="section-title">Recent Transactions</h2>
+
+    <div class="transactions" id="transactions">
+
+        <div class="transaction">
+            <div>
+                <strong>MTN Airtime</strong>
+                <p>Demo transaction</p>
+            </div>
+
+            <div>
+                <strong>₦1,000</strong>
+                <p class="success">Successful</p>
+            </div>
+        </div>
+
+        <div class="transaction">
+            <div>
+                <strong>Airtel Data</strong>
+                <p>Demo transaction</p>
+            </div>
+
+            <div>
+                <strong>₦500</strong>
+                <p class="success">Successful</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <h3>Mtech Global Business</h3>
+
+    <p>Cybersecurity | Fintech | Networking | Financial Solutions</p>
+
+    <p>Email: mtechglobus@gmail.com</p>
+
+    <p>Phone: 08054245992 | 07038174667</p>
+
+    <p>© 2026 Mtech Global Business. All Rights Reserved.</p>
+
+</footer>
+
+<script>
+
+let balance = 10000;
+
+function updateBalance() {
+    document.getElementById("balance").innerText =
+        "₦" + balance.toLocaleString("en-NG", {
+            minimumFractionDigits: 2
+        });
+}
+
+function fundWallet() {
+    alert(
+        "Wallet funding will be connected to Paystack in Stage 3."
+    );
+}
+
+function showService(service) {
+
+    document.getElementById("serviceType").value = service;
+
+    document.getElementById("formTitle").innerText =
+        "Purchase " + service;
+
+    document.getElementById("message").innerText = "";
+
+}
+
+function purchase() {
+
+    let service = document.getElementById("serviceType").value;
+
+    let network = document.getElementById("network").value;
+
+    let phone = document.getElementById("phone").value;
+
+    let plan = document.getElementById("plan").value;
+
+    let message = document.getElementById("message");
+
+    if (network === "") {
+        message.style.color = "red";
+        message.innerText = "Please select a network.";
+        return;
+    }
+
+    if (phone.length < 10) {
+        message.style.color = "red";
+        message.innerText = "Enter a valid phone number.";
+        return;
+    }
+
+    if (plan === "") {
+        message.style.color = "red";
+        message.innerText = "Please select an amount or plan.";
+        return;
+    }
+
+    if (Number(plan) > balance) {
+        message.style.color = "red";
+        message.innerText = "Insufficient demo wallet balance.";
+        return;
+    }
+
+    message.style.color = "orange";
+
+    message.innerText =
+        "Demo only: no real transaction was made. API integration comes later.";
+
+}
+
+updateBalance();
+
+</script>
+
+</body>
+</html>
