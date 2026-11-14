@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mtech Data - Login</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    padding: 20px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px #ddd;
+}
+
+.logo {
+    text-align: center;
+    color: #0066cc;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.switch {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.switch a {
+    color: #0066cc;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#dashboard {
+    display: none;
+}
+
+.services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.service {
+    background: #eaf3ff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #0066cc;
+}
+
+.logout {
+    background: #dc2626;
+    margin-top: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">MTECH DATA</div>
+
+<p class="subtitle">
+Airtime, Data and Bill Payment
+</p>
+
+<div id="auth">
+
+<h2 id="formTitle">Create Account</h2>
+
+<form id="authForm">
+
+<input
+type="text"
+id="name"
+placeholder="Full Name"
+required
+>
+
+<input
+type="email"
+id="email"
+placeholder="Email Address"
+required
+>
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+required
+>
+
+<button type="submit" id="submitBtn">
+Register
+</button>
+
+</form>
+
+<p class="switch">
+Already have an account?
+<a onclick="toggleForm()">Login</a>
+</p>
+
+</div>
+
+<div id="dashboard">
+
+<h2>Welcome to Mtech Data!</h2>
+
+<p style="text-align:center;">
+Your VTU dashboard
+</p>
+
+<div class="services">
+
+<div class="service">📱 Airtime</div>
+
+<div class="service">📶 Data</div>
+
+<div class="service">💰 Wallet</div>
+
+<div class="service">📄 Transactions</div>
+
+</div>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let isRegister = true;
+
+function toggleForm() {
+
+isRegister = !isRegister;
+
+document.getElementById("formTitle").innerText =
+isRegister ? "Create Account" : "Login";
+
+document.getElementById("submitBtn").innerText =
+isRegister ? "Register" : "Login";
+
+document.getElementById("name").style.display =
+isRegister ? "block" : "none";
+
+document.querySelector(".switch").innerHTML =
+isRegister
+? 'Already have an account? <a onclick="toggleForm()">Login</a>'
+: 'New customer? <a onclick="toggleForm()">Register</a>';
+
+}
+
+document.getElementById("authForm")
+.addEventListener("submit", function(e) {
+
+e.preventDefault();
+
+alert(
+"Your Mtech Data interface is ready. Real account authentication will be connected in the next development step."
+);
+
+});
+
+function logout() {
+
+document.getElementById("dashboard").style.display = "none";
+
+document.getElementById("auth").style.display = "block";
+
+}
+
+</script>
+
+</body>
+</html>
