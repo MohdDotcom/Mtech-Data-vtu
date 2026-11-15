@@ -185,45 +185,128 @@ Logout
 </div>
 
 <script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+
+// MTECH DATA FIREBASE CONFIGURATION
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "mtech-data-127a1",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "776924403550",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
 
 let isRegister = true;
 
+
+// SWITCH BETWEEN REGISTER AND LOGIN
+
 function toggleForm() {
 
-isRegister = !isRegister;
+  isRegister = !isRegister;
 
-document.getElementById("formTitle").innerText =
-isRegister ? "Create Account" : "Login";
+  document.getElementById("formTitle").innerText =
+    isRegister ? "Create Account" : "Login";
 
-document.getElementById("submitBtn").innerText =
-isRegister ? "Register" : "Login";
+  document.getElementById("submitBtn").innerText =
+    isRegister ? "Register" : "Login";
 
-document.getElementById("name").style.display =
-isRegister ? "block" : "none";
+  document.getElementById("name").style.display =
+    isRegister ? "block" : "none";
 
-document.querySelector(".switch").innerHTML =
-isRegister
-? 'Already have an account? <a onclick="toggleForm()">Login</a>'
-: 'New customer? <a onclick="toggleForm()">Register</a>';
+  document.querySelector(".switch").innerHTML =
+    isRegister
+    ? 'Already have an account? <a onclick="toggleForm()">Login</a>'
+    : 'New customer? <a onclick="toggleForm()">Register</a>';
 
 }
 
+
+// REGISTER AND LOGIN
+
 document.getElementById("authForm")
-.addEventListener("submit", function(e) {
+.addEventListener("submit", async function(e) {
 
-e.preventDefault();
+  e.preventDefault();
 
-alert(
-"Your Mtech Data interface is ready. Real account authentication will be connected in the next development step."
-);
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+
+    if (isRegister) {
+
+      const result = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      await result.user.updateProfile({
+        displayName: name
+      });
+
+      alert("Welcome to Mtech Data! Your account has been created.");
+
+    } else {
+
+      await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+
+      alert("Login successful!");
+
+    }
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
 
 });
 
+
+// SHOW CUSTOMER DASHBOARD
+
+auth.onAuthStateChanged(function(user) {
+
+  if (user) {
+
+    document.getElementById("auth").style.display = "none";
+
+    document.getElementById("dashboard").style.display = "block";
+
+    document.querySelector("#dashboard h2").innerText =
+      "Welcome " + (user.displayName || user.email);
+
+  } else {
+
+    document.getElementById("auth").style.display = "block";
+
+    document.getElementById("dashboard").style.display = "none";
+
+  }
+
+});
+
+
+// LOGOUT
+
 function logout() {
 
-document.getElementById("dashboard").style.display = "none";
-
-document.getElementById("auth").style.display = "block";
+  auth.signOut();
 
 }
 
