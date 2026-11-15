@@ -136,12 +136,25 @@ placeholder="Email Address"
 required
 >
 
+<div style="display:flex; gap:5px;">
+
 <input
 type="password"
 id="password"
 placeholder="Password"
 required
+style="flex:1;"
 >
+
+<button
+type="button"
+onclick="togglePassword()"
+style="width:auto; padding:10px;"
+>
+👁️
+</button>
+
+</div>
 
 <button type="submit" id="submitBtn">
 Register
