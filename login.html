@@ -205,14 +205,27 @@ Logout
 
 // MTECH DATA FIREBASE CONFIGURATION
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
+  apiKey: "AIzaSyCtkn6CR7c6W25T8ZCfB4Pksq-zYCsSrFI",
+  authDomain: "mtech-data-127a1.firebaseapp.com",
   projectId: "mtech-data-127a1",
-  storageBucket: "YOUR_STORAGE_BUCKET",
+  storageBucket: "mtech-data-127a1.firebasestorage.app",
   messagingSenderId: "776924403550",
-  appId: "YOUR_APP_ID"
+  appId: "1:776924403550:web:d89a50d7a1dac5d858a1cf",
+  measurementId: "G-XCBQ04VSWM"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
