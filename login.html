@@ -198,7 +198,9 @@ button {
         <p style="text-align:center;">
             Your VTU dashboard
         </p>
-
+<button onclick="openProfile()">
+    👤 My Profile
+</button>
         <div class="services">
 
             <div class="service">📱 Airtime</div>
@@ -400,7 +402,11 @@ auth.onAuthStateChanged(function(user) {
 
 });
 
+// OPEN USER PROFILE
 
+function openProfile() {
+    window.location.href = "profile.html";
+}
 // LOGOUT
 
 function logout() {
