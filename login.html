@@ -7,7 +7,6 @@
 <title>Mtech Data - Login</title>
 
 <style>
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -67,15 +66,37 @@ button {
     cursor: pointer;
 }
 
-.switch {
-    text-align: center;
-    margin-top: 20px;
+.password-row {
+    display: flex;
+    gap: 5px;
 }
 
+.password-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+.eye-button {
+    width: auto;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.forgot {
+    text-align: right;
+    margin: 0 0 15px;
+}
+
+.forgot a,
 .switch a {
     color: #0066cc;
     cursor: pointer;
     font-weight: bold;
+}
+
+.switch {
+    text-align: center;
+    margin-top: 20px;
 }
 
 #dashboard {
@@ -102,7 +123,6 @@ button {
     background: #dc2626;
     margin-top: 20px;
 }
-
 </style>
 </head>
 
@@ -110,146 +130,172 @@ button {
 
 <div class="container">
 
-<div class="logo">MTECH DATA</div>
+    <div class="logo">MTECH DATA</div>
 
-<p class="subtitle">
-Airtime, Data and Bill Payment
-</p>
+    <p class="subtitle">
+        Airtime, Data and Bill Payment
+    </p>
 
-<div id="auth">
+    <div id="auth">
 
-<h2 id="formTitle">Create Account</h2>
+        <h2 id="formTitle">Create Account</h2>
 
-<form id="authForm">
+        <form id="authForm">
 
-<input
-type="text"
-id="name"
-placeholder="Full Name"
-required
->
+            <input
+                type="text"
+                id="name"
+                placeholder="Full Name"
+                required
+            >
 
-<input
-type="email"
-id="email"
-placeholder="Email Address"
-required
->
+            <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                required
+            >
 
-<div style="display:flex; gap:5px;">
+            <div class="password-row">
 
-<input
-type="password"
-id="password"
-placeholder="Password"
-required
-style="flex:1;"
->
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    minlength="6"
+                    required
+                >
 
-<button
-type="button"
-onclick="togglePassword()"
-style="width:auto; padding:10px;"
->
-👁️
-</button>
+                <button
+                    type="button"
+                    class="eye-button"
+                    onclick="togglePassword()"
+                >👁️</button>
+
+            </div>
+
+            <p class="forgot" id="forgotBox" style="display:none;">
+                <a onclick="forgotPassword()">Forgot Password?</a>
+            </p>
+
+            <button type="submit" id="submitBtn">
+                Register
+            </button>
+
+        </form>
+
+        <p class="switch" id="switchText">
+            Already have an account?
+            <a onclick="toggleForm()">Login</a>
+        </p>
+
+    </div>
+
+    <div id="dashboard">
+
+        <h2 id="welcomeText">Welcome to Mtech Data!</h2>
+
+        <p style="text-align:center;">
+            Your VTU dashboard
+        </p>
+
+        <div class="services">
+
+            <div class="service">📱 Airtime</div>
+
+            <div class="service">📶 Data</div>
+
+            <div class="service">💰 Wallet</div>
+
+            <div class="service">📄 Transactions</div>
+
+        </div>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
 
 </div>
 
-<button type="submit" id="submitBtn">
-Register
-</button>
-
-</form>
-
-<p class="switch">
-Already have an account?
-<a onclick="toggleForm()">Login</a>
-</p>
-
-</div>
-
-<div id="dashboard">
-
-<h2>Welcome to Mtech Data!</h2>
-
-<p style="text-align:center;">
-Your VTU dashboard
-</p>
-
-<div class="services">
-
-<div class="service">📱 Airtime</div>
-
-<div class="service">📶 Data</div>
-
-<div class="service">💰 Wallet</div>
-
-<div class="service">📄 Transactions</div>
-
-</div>
-
-<button class="logout" onclick="logout()">
-Logout
-</button>
-
-</div>
-
-</div>
-
-<script>
+<!-- Firebase Libraries -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <script>
 
-// MTECH DATA FIREBASE CONFIGURATION
+// FIREBASE CONFIGURATION
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCtkn6CR7c6W25T8ZCfB4Pksq-zYCsSrFI",
-  authDomain: "mtech-data-127a1.firebaseapp.com",
-  projectId: "mtech-data-127a1",
-  storageBucket: "mtech-data-127a1.firebasestorage.app",
-  messagingSenderId: "776924403550",
-  appId: "1:776924403550:web:d89a50d7a1dac5d858a1cf",
-  measurementId: "G-XCBQ04VSWM"
+    apiKey: "AIzaSyCtkn6CR7c6W25T8ZCfB4Pksq-zYCsSrFI",
+    authDomain: "mtech-data-127a1.firebaseapp.com",
+    projectId: "mtech-data-127a1",
+    storageBucket: "mtech-data-127a1.firebasestorage.app",
+    messagingSenderId: "776924403550",
+    appId: "1:776924403550:web:d89a50d7a1dac5d858a1cf",
+    measurementId: "G-XCBQ04VSWM"
 };
 
-// Initialize Firebase
+// INITIALIZE FIREBASE
+
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 
 let isRegister = true;
 
+
 // SWITCH BETWEEN REGISTER AND LOGIN
 
 function toggleForm() {
 
-  isRegister = !isRegister;
+    isRegister = !isRegister;
 
-  document.getElementById("formTitle").innerText =
-    isRegister ? "Create Account" : "Login";
+    const nameField = document.getElementById("name");
 
-  document.getElementById("submitBtn").innerText =
-    isRegister ? "Register" : "Login";
+    const passwordField = document.getElementById("password");
 
-  document.getElementById("name").style.display =
-    isRegister ? "block" : "none";
+    document.getElementById("formTitle").innerText =
+        isRegister ? "Create Account" : "Login";
 
-  document.querySelector(".switch").innerHTML =
-    isRegister
-    ? 'Already have an account? <a onclick="toggleForm()">Login</a>'
-    : 'New customer? <a onclick="toggleForm()">Register</a>';
+    document.getElementById("submitBtn").innerText =
+        isRegister ? "Register" : "Login";
+
+    nameField.style.display =
+        isRegister ? "block" : "none";
+
+    nameField.required = isRegister;
+
+    passwordField.value = "";
+
+    document.getElementById("forgotBox").style.display =
+        isRegister ? "none" : "block";
+
+    document.getElementById("switchText").innerHTML =
+        isRegister
+        ? 'Already have an account? <a onclick="toggleForm()">Login</a>'
+        : 'New customer? <a onclick="toggleForm()">Register</a>';
+
+}
+
+
+// SHOW OR HIDE PASSWORD
+
+function togglePassword() {
+
+    const passwordField = document.getElementById("password");
+
+    if (passwordField.type === "password") {
+
+        passwordField.type = "text";
+
+    } else {
+
+        passwordField.type = "password";
+
+    }
 
 }
 
@@ -259,67 +305,98 @@ function toggleForm() {
 document.getElementById("authForm")
 .addEventListener("submit", async function(e) {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+    const name = document.getElementById("name").value.trim();
 
-  try {
+    const email = document.getElementById("email").value.trim();
 
-    if (isRegister) {
+    const password = document.getElementById("password").value;
 
-      const result = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+    try {
 
-      await result.user.updateProfile({
-        displayName: name
-      });
+        if (isRegister) {
 
-      alert("Welcome to Mtech Data! Your account has been created.");
+            const result = await auth.createUserWithEmailAndPassword(
+                email,
+                password
+            );
 
-    } else {
+            await result.user.updateProfile({
+                displayName: name
+            });
 
-      await auth.signInWithEmailAndPassword(
-        email,
-        password
-      );
+            alert("Welcome to Mtech Data! Your account has been created.");
 
-      alert("Login successful!");
+        } else {
+
+            await auth.signInWithEmailAndPassword(
+                email,
+                password
+            );
+
+            alert("Login successful!");
+
+        }
+
+    } catch (error) {
+
+        alert("Error: " + error.message);
 
     }
 
-  } catch (error) {
-
-    alert(error.message);
-
-  }
-
 });
+
+
+// FORGOT PASSWORD
+
+async function forgotPassword() {
+
+    const email = document.getElementById("email").value.trim();
+
+    if (!email) {
+
+        alert("Please enter your email address first.");
+
+        return;
+
+    }
+
+    try {
+
+        await auth.sendPasswordResetEmail(email);
+
+        alert("Password reset email sent. Please check your inbox.");
+
+    } catch (error) {
+
+        alert("Error: " + error.message);
+
+    }
+
+}
 
 
 // SHOW CUSTOMER DASHBOARD
 
 auth.onAuthStateChanged(function(user) {
 
-  if (user) {
+    if (user) {
 
-    document.getElementById("auth").style.display = "none";
+        document.getElementById("auth").style.display = "none";
 
-    document.getElementById("dashboard").style.display = "block";
+        document.getElementById("dashboard").style.display = "block";
 
-    document.querySelector("#dashboard h2").innerText =
-      "Welcome " + (user.displayName || user.email);
+        document.getElementById("welcomeText").innerText =
+            "Welcome " + (user.displayName || user.email);
 
-  } else {
+    } else {
 
-    document.getElementById("auth").style.display = "block";
+        document.getElementById("auth").style.display = "block";
 
-    document.getElementById("dashboard").style.display = "none";
+        document.getElementById("dashboard").style.display = "none";
 
-  }
+    }
 
 });
 
@@ -328,7 +405,12 @@ auth.onAuthStateChanged(function(user) {
 
 function logout() {
 
-  auth.signOut();
+    auth.signOut()
+    .catch(function(error) {
+
+        alert("Logout error: " + error.message);
+
+    });
 
 }
 
