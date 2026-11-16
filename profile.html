@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mtech Data - User Profile</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    max-width: 420px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px #ddd;
+}
+
+.logo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #0066cc;
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-info {
+    background: #eaf3ff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    margin: 10px 0;
+    overflow-wrap: anywhere;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #0066cc;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.logout {
+    background: #dc2626;
+}
+
+.back {
+    background: #64748b;
+}
+
+.message {
+    text-align: center;
+    color: #0066cc;
+    margin-bottom: 15px;
+    overflow-wrap: anywhere;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">MTECH DATA</div>
+
+    <h2>My Profile</h2>
+
+    <p id="message" class="message">Loading profile...</p>
+
+    <div class="profile-info">
+
+        <p><strong>Full Name:</strong>
+        <span id="profileName">Loading...</span></p>
+
+        <p><strong>Email:</strong>
+        <span id="profileEmail">Loading...</span></p>
+
+        <p><strong>Account Created:</strong>
+        <span id="createdDate">Loading...</span></p>
+
+    </div>
+
+    <h2>Edit Profile Name</h2>
+
+    <form id="nameForm">
+
+        <input
+            type="text"
+            id="newName"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <button type="submit">
+            Update Name
+        </button>
+
+    </form>
+
+    <h2>Change Password</h2>
+
+    <form id="passwordForm">
+
+        <input
+            type="password"
+            id="currentPassword"
+            placeholder="Current password"
+            required
+        >
+
+        <input
+            type="password"
+            id="newPassword"
+            placeholder="New password (minimum 6 characters)"
+            minlength="6"
+            required
+        >
+
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm new password"
+            minlength="6"
+            required
+        >
+
+        <button type="submit">
+            Change Password
+        </button>
+
+    </form>
+
+    <button class="back" onclick="goBack()">
+        Back to Dashboard
+    </button>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+
+// FIREBASE CONFIGURATION
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCtkn6CR7c6W25T8ZCfB4Pksq-zYCsSrFI",
+    authDomain: "mtech-data-127a1.firebaseapp.com",
+    projectId: "mtech-data-127a1",
+    storageBucket: "mtech-data-127a1.firebasestorage.app",
+    messagingSenderId: "776924403550",
+    appId: "1:776924403550:web:d89a50d7a1dac5d858a1cf",
+    measurementId: "G-XCBQ04VSWM"
+};
+
+// INITIALIZE FIREBASE
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+let currentUser = null;
+
+
+// CHECK LOGIN STATUS
+
+auth.onAuthStateChanged(function(user) {
+
+    if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    document.getElementById("profileName").innerText =
+        user.displayName || "No name set";
+
+    document.getElementById("profileEmail").innerText =
+        user.email || "No email";
+
+    document.getElementById("newName").value =
+        user.displayName || "";
+
+    document.getElementById("createdDate").innerText =
+        user.metadata.creationTime
+        ? new Date(user.metadata.creationTime).toLocaleDateString()
+        : "Unavailable";
+
+    document.getElementById("message").innerText =
+        "Your profile is connected successfully.";
+
+});
+
+
+// UPDATE PROFILE NAME
+
+document.getElementById("nameForm")
+.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    if (!currentUser) return;
+
+    const newName =
+        document.getElementById("newName").value.trim();
+
+    if (!newName) {
+
+        alert("Please enter your name.");
+
+        return;
+
+    }
+
+    try {
+
+        await currentUser.updateProfile({
+            displayName: newName
+        });
+
+        document.getElementById("profileName").innerText =
+            newName;
+
+        document.getElementById("message").innerText =
+            "Profile name updated successfully.";
+
+        alert("Your profile name has been updated!");
+
+    } catch (error) {
+
+        alert("Error: " + error.message);
+
+    }
+
+});
+
+
+// CHANGE PASSWORD
+
+document.getElementById("passwordForm")
+.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    if (!currentUser) return;
+
+    const currentPassword =
+        document.getElementById("currentPassword").value;
+
+    const newPassword =
+        document.getElementById("newPassword").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    if (newPassword !== confirmPassword) {
+
+        alert("The new passwords do not match.");
+
+        return;
+
+    }
+
+    if (newPassword.length < 6) {
+
+        alert("Password must be at least 6 characters.");
+
+        return;
+
+    }
+
+    try {
+
+        const credential =
+            firebase.auth.EmailAuthProvider.credential(
+                currentUser.email,
+                currentPassword
+            );
+
+        await currentUser.reauthenticateWithCredential(
+            credential
+        );
+
+        await currentUser.updatePassword(newPassword);
+
+        document.getElementById("passwordForm").reset();
+
+        alert("Password changed successfully!");
+
+    } catch (error) {
+
+        alert("Password change error: " + error.message);
+
+    }
+
+});
+
+
+// BACK TO DASHBOARD
+
+function goBack() {
+
+    window.location.href = "login.html";
+
+}
+
+
+// LOGOUT
+
+function logout() {
+
+    auth.signOut()
+    .then(function() {
+
+        window.location.href = "login.html";
+
+    })
+    .catch(function(error) {
+
+        alert("Logout error: " + error.message);
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
