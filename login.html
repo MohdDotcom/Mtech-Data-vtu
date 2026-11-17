@@ -396,6 +396,21 @@ auth.onAuthStateChanged(function(user) {
         document.getElementById("welcomeText").innerText =
             "Welcome " + (user.displayName || user.email);
 
+db.collection("wallets").doc(user.uid).get()
+  .then(function(doc) {
+    if (doc.exists) {
+      const balance = doc.data().balance || 0;
+
+      document.getElementById("walletBalance").textContent =
+        Number(balance).toLocaleString("en-NG");
+    } else {
+      document.getElementById("walletBalance").textContent = "0";
+    }
+  })
+  .catch(function(error) {
+    console.error("Wallet loading error:", error);
+  });
+
     } else {
 
         document.getElementById("auth").style.display = "block";
